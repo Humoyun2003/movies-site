@@ -16,21 +16,39 @@
 	<header>
 		<a href="#" class="logo"><i class="fas fa-video"></i></i>Films</a>
 
-		<form class="form">
-			<select class="select">
+		<form class="form-search">
+			<select class="select select-genre">
 				<option value="all">all</option>
 			</select>
+			<select class="select select-sort">
+				<option value="0">A-Z</option>
+				<option value="1">Z-A</option>
+				<option value="2">New-Old</option>
+				<option value="3">Old-New</option>
+			</select>
 
-			<button type="submit" class="btn">Search</button>
+			<div class="search">
+				<input type="text" class="input-search" placeholder="movie search...">
+				<i class="fas fa-search"></i>
+			</div>
 		</form>
 	</header>
 
 	<section class="films" id="films">
-		<h1 class="heading"><span class="span">  </span> movies</h1>
+		<h1 class="heading"><span class="span">All  </span> movies</h1>
 		<div class="box-container">
 			
 		</div>
 	</section>
+
+	<footer>
+		<a href="#" class="logo"><i class="fas fa-video"></i></i>Films</a>
+
+		<form class="form">
+			<textarea class="textarea" name="" id="" rows="2" placeholder="Send comment..."></textarea>
+			<button type="submit" class="btn">Send</button>
+		</form>
+	</footer>
 
 
 	<script src="js/films.js"></script>
