@@ -1,30 +1,27 @@
 const elSelect = document.querySelector('.select-genre');
 const elSelectSort = document.querySelector('.select-sort');
 const elForm = document.querySelector('.form-search');
+const elFormComment = document.querySelector('.form');
+const elTextarea = document.querySelector('.textarea');
 const elSpan = document.querySelector('.span');
 const elBoxContent = document.querySelector('.box-container');
 const elSearchInput = document.querySelector('.input-search');
+const mybutton = document.getElementById("myBtn");
 
+window.onscroll = function() {scrollFunction()};
 
 editGenreOptions(films, elSelect);
 
 renderFilms(films.sort(sortFunctions[0]), elBoxContent);
 
-elForm.addEventListener('input', filmsSortFn)
+var filteredFilm = films;
 
+elForm.addEventListener('input', filmsSortFn);
 
+elBoxContent.addEventListener('click', filmsSortLiked);
 
-// const elLike = document.querySelector('.like');
-// const elHeart = document.querySelector('.like-icon');
-// let sum = false;
+elFormComment.addEventListener('submit', (evt) => {
+	evt.preventDefault();
 
-// elLike.addEventListener('click', (e) => {
-// 	if (sum === false) {
-// 		elHeart.classList.toggle('fas',);
-// 		sum = true;
-// 	}
-// 	if (sum === true) {
-// 		elHeart.classList.toggle('far');
-// 		sum = false;
-// 	}
-// });
+	elTextarea.value = '';
+})

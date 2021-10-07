@@ -18,9 +18,25 @@ html {
     scroll-behavior: smooth;
     scroll-padding-top: 6rem;
 }
-
-body {
-    background: #f7f7f7;
+    
+#myBtn {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    background-color: var(--red);
+    color: #fff;
+    cursor: pointer;
+    padding: 15px 20px;
+    border-radius: 4px;
+}
+    
+#myBtn:hover {
+    background-color: #666;
 }
 
 
@@ -139,14 +155,20 @@ form .search .fas {
     color: var(--red);
     padding: 0.8rem 1.4rem;
 }
-.films .box-container .box .like .fa-heart {
-    font-size: 2.2rem;
-}
-.films .box-container .box .like:hover .fa-heart {
-    cursor: pointer;
-}
-.films .box-container .box .like .fa-heart {
+.films .box-container .box .download {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #666;
     color: var(--red);
+    padding: 0.8rem 1.4rem;
+}
+.films .box-container .box .like .fa-heart, .films .box-container .box .download .fa-download {
+    font-size: 2.2rem;
+    color: var(--red);
+}
+.films .box-container .box .like:hover .fa-heart, .films .box-container .box .download:hover .fa-download {
+    cursor: pointer;
 }
 .films .box-container .box img {
     height: 100%;
@@ -217,6 +239,7 @@ footer .textarea {
     width: 600px;
     height: 4rem;
     margin-right: 2rem;
+    text-transform: none;
 }
 input::placeholder, textarea::placeholder {
     color: var(--red);

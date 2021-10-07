@@ -410,3 +410,9 @@ var films = [
 		genres: ['Music', 'Documentary'],
 	},
 ];
+let sum = 0;
+films.forEach((film) => {
+	film.to_like = false;
+	film.id = sum;
+	sum++;
+});

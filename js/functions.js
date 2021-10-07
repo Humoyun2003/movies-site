@@ -6,7 +6,9 @@ function renderFilms(arr, node) {
 		const newBox = document.createElement('div');
 		const newContent = document.createElement('div');
 		const newLike = document.createElement('div');
+		const newDownload = document.createElement('a');
 		const newHeart = document.createElement('i');
+		const newDownloadIcon = document.createElement('i');
 		const newImage = document.createElement('img');
 		const newHeading = document.createElement('h3');
 		const newParagraph = document.createElement('p');
@@ -16,7 +18,7 @@ function renderFilms(arr, node) {
 
 		newHeading.textContent = film.title;
 		newParagraph.textContent =
-		film.overview.split(' ').slice(0, 25).join(' ') + '...';
+			film.overview.split(' ').slice(0, 25).join(' ') + '...';
 		newTime.textContent = normalizeDate(film.release_date);
 		newBtn.textContent = 'Watch Now';
 
@@ -29,13 +31,26 @@ function renderFilms(arr, node) {
 
 		newBox.setAttribute('class', 'box');
 		newLike.setAttribute('class', 'like');
+		newDownload.setAttribute('class', 'download');
+		newDownload.setAttribute('href', film.poster);
+		newDownload.setAttribute('target', 'blank');
 		newHeart.setAttribute('class', 'far fa-heart like-icon');
+		newDownloadIcon.setAttribute('class', 'fas fa-download download-icon');
 		newImage.setAttribute('src', film.poster);
 		newImage.setAttribute('alt', film.title + ' poster');
 		newContent.setAttribute('class', 'content');
 		newTime.setAttribute('class', 'time')
 		newBtn.setAttribute('class', 'btn');
-		newBtn.setAttribute('href', '#');
+		newBtn.setAttribute('href', film.poster);
+		newBtn.setAttribute('target', 'blank');
+
+		newHeart.dataset.filmId = film.id;
+
+		if (film.to_like) {
+			newHeart.classList.toggle('fas');
+		}
+
+		// newBox.dataset.id = film.id;
 
 		newContent.appendChild(newHeading);
 		newContent.appendChild(newParagraph);
@@ -43,12 +58,30 @@ function renderFilms(arr, node) {
 		newContent.appendChild(newTime);
 		newContent.appendChild(newBtn);
 		newLike.appendChild(newHeart);
+		newDownload.appendChild(newDownloadIcon);
 		newBox.appendChild(newLike);
 		newBox.appendChild(newImage);
 		newBox.appendChild(newContent);
+		newBox.appendChild(newDownload);
 
-		node.appendChild(newBox);film
+		node.appendChild(newBox);
 	})
+};
+
+
+
+// Scroll To Top functions
+function scrollFunction() {
+	if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+		mybutton.style.display = "block";
+	} else {
+		mybutton.style.display = "none";
+	}
+}
+
+function topFunction() {
+	document.body.scrollTop = 0;
+	document.documentElement.scrollTop = 0;
 }
 
 
@@ -65,10 +98,10 @@ function editGenreOptions(arr, select) {
 		}
 	}
 	optionGanres.sort((a, b) => {
-		if(a > b) {
+		if (a > b) {
 			return 1;
 		}
-		if(a < b) {
+		if (a < b) {
 			return -1;
 		}
 		return 0;
@@ -83,38 +116,38 @@ function editGenreOptions(arr, select) {
 // Sort function working for Select
 const sortFunctions = {
 	0: (a, b) => {
-		if(a.title > b.title) {
+		if (a.title > b.title) {
 			return 1;
 		}
-		if(a.title < b.title) {
+		if (a.title < b.title) {
 			return -1;
 		}
 		return 0;
 	},
 	1: (a, b) => {
-		if(a.title > b.title) {
+		if (a.title > b.title) {
 			return -1;
 		}
-		if(a.title < b.title) {
+		if (a.title < b.title) {
 			return 1;
 		}
 		return 0;
 	},
 	2: (a, b) => {
-		if(a.release_date > b.release_date) {
+		if (a.release_date > b.release_date) {
 			return -1;
 		}
-		if(a.release_date < b.release_date) {
+		if (a.release_date < b.release_date) {
 			return 1;
 		}
 		return 0;
 	},
 
 	3: (a, b) => {
-		if(a.release_date > b.release_date) {
+		if (a.release_date > b.release_date) {
 			return 1;
 		}
-		if(a.release_date < b.release_date) {
+		if (a.release_date < b.release_date) {
 			return -1;
 		}
 		return 0;
@@ -127,13 +160,11 @@ const sortFunctions = {
 function filmsSortFn(evt) {
 	evt.preventDefault();
 
-	var filteredFilm = [];
-	
-	if (elSelect.value == 'all') {
-		filteredFilm = films;
+	if(elSelect.value != 'all') {
+		filteredFilm = films.filter(film => film.genres.includes(elSelect.value))
 	}
 	else {
-		filteredFilm = films.filter(film => film.genres.includes(elSelect.value))
+		filteredFilm = films;
 	}
 	
 	filteredFilm.sort(sortFunctions[elSelectSort.value]);
@@ -143,4 +174,19 @@ function filmsSortFn(evt) {
 	const newRegx = new RegExp(elSearchInput.value, 'gi');
 	filteredFilm = filteredFilm.filter(film => film.title.match(newRegx));
 	renderFilms(filteredFilm, elBoxContent);
+}
+
+
+
+
+function filmsSortLiked(evt) {
+	if (evt.target.matches('.like-icon')) {
+		const iconId = Number(evt.target.dataset.filmId);
+
+		const foundLike = films.find((film) => film.id === iconId);
+
+		foundLike.to_like = !foundLike.to_like;
+
+		renderFilms(filteredFilm, elBoxContent);
+	}
 }
